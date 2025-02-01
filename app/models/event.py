@@ -1,16 +1,14 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import Column, Integer, String, Date, Time
+from sqlalchemy.orm import relationship
+from app.database.base import Base
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./attendance.db"
+class Event(Base):
+    __tablename__ = "events"
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    date = Column(Date)
+    location = Column(String)
+    time = Column(Time)
+    status = Column(String, default="upcoming")
+    attendance = Column(Integer, default=0)  

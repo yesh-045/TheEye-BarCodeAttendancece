@@ -1,15 +1,13 @@
-from sqlalchemy import Column, Integer, String, Date, Float
+from sqlalchemy import Column, Integer, String, Float, Enum
 from sqlalchemy.orm import relationship
 from app.database.base import Base
+from app.schemas.enums import RoleType
 
 class Member(Base):
     __tablename__ = "members"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    email = Column(String, unique=True, index=True)
-    join_date = Column(Date)
+    roll_no = Column(Integer, primary_key=True, index=True,autoincrement=False)
+    name = Column(String)
     attendance_rate = Column(Float, default=0.0)
-    status = Column(String, default="active")
-    
-    attendance = relationship("Attendance", back_populates="member")
+    attendance = Column(Integer, default=0)  
+    role = Column(Enum(RoleType), default=RoleType.PARTICIPANT)
